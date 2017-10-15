@@ -1,4 +1,4 @@
-![Darknet Logo](http://pjreddie.com/media/files/darknet-black-small.png)
+<p align="center"><img src="http://pjreddie.com/media/files/darknet-black-small.png" height="300"></p>
 
 # Darknet
 Darknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation.
@@ -8,8 +8,9 @@ For more information see the [Darknet project website](http://pjreddie.com/darkn
 For questions or issues please use the [Google Group](https://groups.google.com/forum/#!forum/darknet).
 
 
+
 # Training
-NOTE: I have only started writing this guide for myself. It is probably not clear and surely not complete. This is at the moment just to help me keep track of what steps I am doing to train yolo, as I am sure the majority of you have seen how complicated it can be. If I get it to work, I will try to keep expanding on this, and make a very clear guide which will hopefully help out. I am using this for a university project.
+NOTE: I have only started writing this guide for myself. It is probably not clear and surely not complete. This is at the moment just to help me keep track of what steps I am doing to train yolo, as I am sure the majority of you have seen how complicated it can be. If I get it to work, I will try to keep expanding on this, and make a very clear guide which will hopefully help out. I am using this for a university project, and currently only to train on a single class.
 
 I am using the following to help me understand the training process:
 - [How to train YOLOv2 to detect custom objects](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/) by [Nils Tijtgat](https://github.com/timebutt)
@@ -86,3 +87,8 @@ If the training is ever interrupted at any point, it can be continued by substit
 
 ## Testing
 Test your newly trained algorithm by running, `./darknet detector test cfg/obj.data cfg/obj.cfg obj1000.weights data/image.jpg`
+
+## TO FIGURE OUT
+- [ ] `.weights` files stop saving after 900 iterations, though I kepts it going over 2000
+- [ ] how to train multiple classes
+- [ ] point all files to same images & labels folder, without having to move them
