@@ -32,7 +32,7 @@ def convert(size, box):
 
 """ Configure Paths"""
 mypath = "/home/riccardo/darknet/labels/original/"
-outpath = "/home/riccardo/darknet/labels/formatted/"
+outpath = "/home/riccardo/darknet/labels/"
 
 cls = "stopsign"
 if cls not in classes:
