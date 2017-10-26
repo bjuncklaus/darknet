@@ -26,29 +26,36 @@ NOTE: CUDA and cuDNN are not necessary, if you decide to install them, make sure
 
 
 ## 1 - Gather & format data
-Though there are many image datasets/databases online, I could not find the images which I wanted, or they were part of a very large set, or the download was simply too large. Therefore, I used my  phone to take photos, however the smallest photos I could take were 3264\*1836, and their names were not as desired. From research, apparently at least 250 different images are needed for each class. Taking 250 can take some time and creativity, therefore I took only half and then flipped them, renamed them, and resized them.
+If you already have your data in the correct format, skip to [step 2](https://github.com/RiccardoGrin/darknet#2---labeling). <br /> NOTE: Check if any steps can be skipped (eg. No need to change image format if its already .jpg, and no need to flip to duplicate number of images, if you already have >250).
 
-NOTE: images need to be .jpg if they are not, then you will need to also change their format, otherwise skip step 1.1
+Though there are many image datasets/databases online, I could not find the images which I wanted, or they were part of a very large set, or the download was simply too large. Therefore, I used my  phone to take photos, however the smallest photos I could take were 3264\*1836, and their names were not as desired. From research, apparently at least 250 different images are needed for each class. Taking 250 photos can take some time and creativity, therefore I took only half, and then flipped, renamed, and resized them. <br />
+NOTE: Images need to be in .jpg format. If they are not, then you will need to also change their format.
 
-For steps 1.1 to 1.3, Imagemagick is required. Install using: `sudo apt-get install imagemagick`
+Steps 1.1 to 1.3, require Imagemagick. Install using: `sudo apt-get install imagemagick`
 
 ### 1.1 - Batch convert images format (eg .png to .jpg):
 - Travel to folder with images to convert via terminal
 - Convert image format: `mogrify -format jpg *.png`
 
-### 1.2 - Batch flip images:
-- Duplicate the folder of the images to be flipped (no need for command line)
-- Flip all images in the duplicate folder from terminal: `mogrify -flip *.jpg`
-- Merge all newly flipped images into the original images forlder
+### 1.2 - Batch flip:
+- Copy all images to be flipped and paste them in the same folder (should be renamed to img_name(copy).jpg)
+- Flip all image copies from the terminal: `mogrify -flip *(copy).jpg`
 
-### 1.3 - Batch resize images:
+### 1.3 - Batch resize:
 - Travel to the folder containing all image to be resized using the terminal
 - Resize keeping aspect ratio: `mogrify -resize 640x360 *.jpg`
 
-### 1.4 - Batch rename images:
+### 1.4 - Batch rename:
 - Install PyRenamer `sudo apt-get install pyrenamer`
 - Open it: `pyrenamer`
-- On the patterns tab, select all images, then use the patters to highlight which part you want changed, and replace it [ADD EXAMPLE]
+- Travel to folder containng images from the left panel
+- On the right preview panel, select/highlight all images by pressing `ctrl-a`
+- In the "Original file name pattern" box, type ".jpg"
+- In the "Renamed file name pattern" box, type "{num3}.jpg"
+- Click on the Preview button to see changes to be made. This will rename all .jpg images to ascending numbers (000, 001, 002, etc...)
+- Press Rename to complete
+
+<p align="center"><img src="https://github.com/RiccardoGrin/darknet/readme_images/rename_exp.bmp" height="500"></p>
 
 ## 2 - Labeling
 - In the home directory, clone [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git): `git close https://github.com/puzzledqs/BBox-Label-Tool.git`
