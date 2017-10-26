@@ -55,7 +55,9 @@ Steps 1.1 to 1.3, require Imagemagick. Install using: `sudo apt-get install imag
 - Click on the Preview button to see changes to be made. This will rename all .jpg images to ascending numbers (000, 001, 002, etc...)
 - Press Rename to complete
 
-<p align="center"><img src="https://github.com/RiccardoGrin/darknet/readme_images/rename_exp.jpg" height="500"></p>
+<p align="center">
+  <img src="readme_images/rename_exp.jpg" width="700"><br>
+</p>
 
 ## 2 - Labeling
 - In the home directory, clone [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git): `git close https://github.com/puzzledqs/BBox-Label-Tool.git`
