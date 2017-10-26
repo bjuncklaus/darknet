@@ -74,12 +74,14 @@ NOTE: If you cannot open 'main.py', check if python is opened as the default or 
 
 
 ### 2.1 - Converting labels
-- Download [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan)
-- Move convert.py to `darknet/scripts`
-- Change the paths to your own
+I have done some changes to the original [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan) while I was learning to use it.
+- Download the revised version of [convert.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/convert.py)
+- Move 'convert.py' to `darknet/scripts`
+- Change the paths on lines 39,40, and 45 to your own
+- Add all your classes in the array on line 16
 - Run `python convert.py` from the scripts directory
 
-## 3- Creating train/test sets
+## 3 - Creating train/test sets
 - Create within scripts, process.py from the code by [Nils Tijtgat](https://github.com/timebutt)  as seen on his [guide](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/)
 - Update the input directories to point to your images files
 - Update save directory to what you desire (for example within data directory)
