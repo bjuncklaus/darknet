@@ -25,19 +25,32 @@ I am using the following to help me understand the training process:
 NOTE: CUDA and cuDNN are not necessary, if you decide to install them, make sure your system meets the requirements. OpenCV can also be optionally installed
 
 
-## Gather & format data
-I have just started taking photos on my own as most datasets/databases online did not have images which I wanted, or the download were too large. I used my  phone to take photos, however the smallest photos I could take were 3264\*1836, and their names were not as wanted, so I did the renamed them, and resized them.
+## 1 - Gather & format data
+Though there are many image datasets/databases online, I could not find the images which I wanted, or they were part of a very large set, or the download was simply too large. Therefore, I used my  phone to take photos, however the smallest photos I could take were 3264\*1836, and their names were not as desired. From research, apparently at least 250 different images are needed for each class. Taking 250 can take some time and creativity, therefore I took only half and then flipped them, renamed them, and resized them.
 
-### Batch rename images:
+NOTE: images need to be .jpg if they are not, then you will need to also change their format, otherwise skip step 1.1
+
+For steps 1.1 to 1.3, Imagemagick is required. Install using: `sudo apt-get install imagemagick`
+
+### 1.1 - Batch convert images format (eg .png to .jpg):
+- Travel to folder with images to convert via terminal
+- Convert image format: `mogrify -format jpg *.png`
+
+### 1.2 - Batch flip images:
+- Duplicate the folder of the images to be flipped (no need for command line)
+- Flip all images in the duplicate folder from terminal: `mogrify -flip *.jpg`
+- Merge all newly flipped images into the original images forlder
+
+### 1.3 - Batch resize images:
+- Travel to the folder containing all image to be resized using the terminal
+- Resize keeping aspect ratio: `mogrify -resize 640x360 *.jpg`
+
+### 1.4 - Batch rename images:
 - Install PyRenamer `sudo apt-get install pyrenamer`
 - Open it: `pyrenamer`
 - On the patterns tab, select all images, then use the patters to highlight which part you want changed, and replace it [ADD EXAMPLE]
 
-### Batch resize images:
-- Install Imagemagick: `sudo apt-get install imagemagick`
-- Resize keeping aspect ratio: `mogrify -resize 640x360 *.jpg`
-
-## Labeling
+## 2 - Labeling
 - In the home directory, clone [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git): `git close https://github.com/puzzledqs/BBox-Label-Tool.git`
 - Empty the `Images/001` directory and place all your images for one class inside it
 - Empty the `Labels/001` directory, where the text files will be saved
@@ -47,19 +60,19 @@ NOTE: You can also open main.py and change the directories to your own.
 NOTE: if this does not work, check if python is the default or Anaconda version when opened. If it is the defaults version, open .bachrc from the home directory (using either nano, vim, Atom, etc..), and add at the very end `export PATH=~/anaconda2/bin:$PATH`, then in the command line type `source .bashrc`. Try to open main now, it should work.
 - Label every image, check [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git) repo for info. (will take some time)
 
-### Converting labels
+### 2.1 - Converting labels
 - Download [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan)
 - Move convert.py to `darknet/scripts`
 - Change the paths to your own
 - Run `python convert.py` from the scripts directory
 
-## Creating train/test sets
+## 3- Creating train/test sets
 - Create within scripts, process.py from the code by [Nils Tijtgat](https://github.com/timebutt)  as seen on his [guide](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/)
 - Update the input directories to point to your images files
 - Update save directory to what you desire (for example within data directory)
 - Run `python process.py` from the scripts directory
 
-## Preparing configuration files
+## 4 - Preparing configuration files
 - Go into the cfg directory
 - Create a `obj.data` file with the following text
       classes = 1  
@@ -76,7 +89,7 @@ NOTE: if this does not work, check if python is the default or Anaconda version 
 - Make a folder named `backup` in the main darknet directory
 - Download [darknet19_488.conv.23](https://pjreddie.com/media/files/darknet19_448.conv.23), and save it into the cfg directory
 
-## Training
+## 5 - Training
 - Open the darknet Makefile and switch GPU and CUDNN to 1 (if set up completed)
 - Run `make` if you have not done so already
 - Run `./darknet detector train cfg/obj.data cfg/obj.cfg darknet19_448.conv.23`
@@ -85,7 +98,7 @@ This will save save a `.weights` files within the backup folder, initially every
 
 If the training is ever interrupted at any point, it can be continued by substituting the last saved `.weights` file from the backup folder, with `darknet19_448.conv.23`, in the training command
 
-## Testing
+## 6 - Testing
 Test your newly trained algorithm by running, `./darknet detector test cfg/obj.data cfg/obj.cfg obj1000.weights data/image.jpg`
 
 ## TO FIGURE OUT
