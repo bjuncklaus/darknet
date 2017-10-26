@@ -37,9 +37,9 @@ Steps 1.1 to 1.3, require Imagemagick. Install using: `sudo apt-get install imag
 - Travel to folder with images to convert via terminal
 - Convert image format: `mogrify -format jpg *.png`
 
-### 1.2 - Batch flip:
+### 1.2 - Batch flip (mirror):
 - Copy all images to be flipped and paste them in the same folder (should be renamed to img_name(copy).jpg)
-- Flip all image copies from the terminal: `mogrify -flip *(copy).jpg`
+- Flip all image copies from the terminal: `mogrify -flop *(copy).jpg`
 
 ### 1.3 - Batch resize:
 - Travel to the folder containing all image to be resized using the terminal
@@ -53,21 +53,25 @@ Steps 1.1 to 1.3, require Imagemagick. Install using: `sudo apt-get install imag
 - In the "Original file name pattern" box, type ".jpg"
 - In the "Renamed file name pattern" box, type "{num3}.jpg"
 - Click on the Preview button to see changes to be made. This will rename all .jpg images to ascending numbers (000, 001, 002, etc...)
-- Press Rename to complete
+- Press the Rename button to complete
 
 <p align="center">
   <img src="readme_images/rename_exp.jpg" width="700"><br>
 </p>
 
 ## 2 - Labeling
-- In the home directory, clone [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git): `git close https://github.com/puzzledqs/BBox-Label-Tool.git`
-- Empty the `Images/001` directory and place all your images for one class inside it
-- Empty the `Labels/001` directory, where the text files will be saved
-- Create incrementing folders (002, 003, ...) for each class, within the Images and Labels folder
-NOTE: You can also open main.py and change the directories to your own.
+To make the process easier, I have changed the orginal [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git) by [puzzledqs](https://github.com/puzzledqs), so that images would not need to be shifted from place to place. Also I have made it so that you can open a file with the name of the class in the images folder.
+- In the home directory, clone the revised BBox-Label-Tool: `git clone https://github.com/RiccardoGrin/BBox-Label-Tool`
+- Open `main.py` in an editor (I personally preder Atom)
+- Change lines 109 and 123 to point to your 'images' and 'labels' folders respectively
+- Create a folder within the 'images' folder, for each class, with the class name
+- Collect each image from each class and place it in their respective folder
+- Create a folder within the 'labels' folder, for each class, with the class name
 - Open main: `python main.py`
-NOTE: if this does not work, check if python is the default or Anaconda version when opened. If it is the defaults version, open .bachrc from the home directory (using either nano, vim, Atom, etc..), and add at the very end `export PATH=~/anaconda2/bin:$PATH`, then in the command line type `source .bashrc`. Try to open main now, it should work.
-- Label every image, check [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git) repo for info. (will take some time)
+- Label every image (will take some time)
+
+NOTE: If you cannot open 'main.py', check if python is opened as the default or Anaconda version by opening it from the terminal by typing `python`. If it is the defaults version, open `.bachrc` from the home directory using an edition (Atom, nano, vim, etc...), and add at the very end `export PATH=~/anaconda2/bin:$PATH`, then in the command line type `source .bashrc`. Try to open 'main.py' again.
+
 
 ### 2.1 - Converting labels
 - Download [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan)
