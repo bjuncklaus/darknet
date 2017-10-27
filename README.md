@@ -72,7 +72,6 @@ To make the process easier, I have changed the orginal [BBox-Label-Tool](https:/
 
 NOTE: If you cannot open 'main.py', check if python is opened as the default or Anaconda version by opening it from the terminal by typing `python`. If it is the defaults version, open `.bachrc` from the home directory using an edition (Atom, nano, vim, etc...), and add at the very end `export PATH=~/anaconda2/bin:$PATH`, then in the command line type `source .bashrc`. Try to open 'main.py' again.
 
-
 ### 2.1 - Converting labels
 I have done some changes to the original [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan) while I was learning to use it.
 - Download the revised version of [convert.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/convert.py)
@@ -82,10 +81,16 @@ I have done some changes to the original [convert.py](https://github.com/Guangha
 - Run `python convert.py` from the scripts directory
 
 ## 3 - Creating train/test sets
-- Create within scripts, process.py from the code by [Nils Tijtgat](https://github.com/timebutt)  as seen on his [guide](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/)
-- Update the input directories to point to your images files
-- Update save directory to what you desire (for example within data directory)
+I have made some changes to the 'process.py' script, written by [Nils Tijtgat](https://github.com/timebutt)  as seen on his [guide](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/). This script creates a 'train.txt' file required for training, and a 'test.txt' file. I have made some changes to the script to make it easier to use for multiple classes.
+- Download the revised version of [process.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/process.py)
+- Move 'process.py' to `darknet/scripts`
+- Set the percentage of images to be set as testing images (check NOTE below for none)
+- Update the directory in which to create the train and test files on lines 13, 14
+- Update the image directory on line 17
+- Add all your classes in the array on line 20 (similar to convert.py)
 - Run `python process.py` from the scripts directory
+
+NOTE: It is not necessary to have a test.txt file, however it might help having separate image sets for training and testing. Set 'index_test' to -1 on line 28 to stop the script from populating the test.txt file.
 
 ## 4 - Preparing configuration files
 - Go into the cfg directory
