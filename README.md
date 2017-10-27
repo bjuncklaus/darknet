@@ -72,6 +72,10 @@ To make the process easier, I have changed the orginal [BBox-Label-Tool](https:/
 
 NOTE: If you cannot open 'main.py', check if python is opened as the default or Anaconda version by opening it from the terminal by typing `python`. If it is the defaults version, open `.bachrc` from the home directory using an edition (Atom, nano, vim, etc...), and add at the very end `export PATH=~/anaconda2/bin:$PATH`, then in the command line type `source .bashrc`. Try to open 'main.py' again.
 
+<p align="center">
+  <img src="readme_images/label_exp.jpg" width="700"><br>
+</p>
+
 ### 2.1 - Converting labels
 I have done some changes to the original [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan) while I was learning to use it.
 - Download the revised version of [convert.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/convert.py)
