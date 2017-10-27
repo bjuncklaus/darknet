@@ -133,7 +133,7 @@ void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, i
             sprintf(buff, "%s/%s.backup", backup_directory, base);
             save_weights(net, buff);
         }
-        if(i%10000==0 || (i < 1000 && i%100 == 0)){
+        if(i%1000==0 || (i < 1000 && i%100 == 0)){
 #ifdef GPU
             if(ngpus != 1) sync_nets(nets, ngpus, 0);
 #endif
@@ -355,7 +355,7 @@ void validate_detector_flip(char *datacfg, char *cfgfile, char *weightfile, char
         if(fps) fclose(fps[j]);
     }
     if(coco){
-        fseek(fp, -2, SEEK_CUR); 
+        fseek(fp, -2, SEEK_CUR);
         fprintf(fp, "\n]\n");
         fclose(fp);
     }
@@ -486,7 +486,7 @@ void validate_detector(char *datacfg, char *cfgfile, char *weightfile, char *out
         if(fps) fclose(fps[j]);
     }
     if(coco){
-        fseek(fp, -2, SEEK_CUR); 
+        fseek(fp, -2, SEEK_CUR);
         fprintf(fp, "\n]\n");
         fclose(fp);
     }
@@ -630,7 +630,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
         else{
             save_image(im, "predictions");
 #ifdef OPENCV
-            cvNamedWindow("predictions", CV_WINDOW_NORMAL); 
+            cvNamedWindow("predictions", CV_WINDOW_NORMAL);
             if(fullscreen){
                 cvSetWindowProperty("predictions", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
             }

@@ -18,9 +18,10 @@ I am using the following to help me understand the training process:
 - [Yolo-v2 Windows and Linux version](https://github.com/AlexeyAB/darknet) by [Alexey](https://github.com/AlexeyAB)
 
 ## TO DO
-- [ ] Better explanation of prerequisites and installattion
-- [ ] `.weights` files stop saving after 900 iterations, though I kepts it going over 2000
-- [ ] train multiple classes
+- Better explanation of prerequisites and installattion
+- Train multiple classes
+- Add more solutions to common issues
+- Add more example images
 
 ## Prerequisites
 - [Darknet](https://github.com/pjreddie/darknet)
@@ -99,31 +100,37 @@ I have made some changes to the 'process.py' script, written by [Nils Tijtgat](h
 - Run `python process.py` from the scripts directory
 
 ## 4 - Preparing configuration files
+- In the 'data' directory, create a `obj.names` file, where every line should be a different class names
 - In the 'cfg' directory, create a `obj.data` file with the following text:
   ```
   classes = 1  
   train = data/train.txt  
   valid = data/test.txt  
-  names = obj.names  
+  names = data/obj.names  
   backup = backup/
   ```
-- Create a `obj.names` file, where every line should be a different class names
 - Duplicate `yolo-voc.cfg`, and change the name to `obj.cfg`
     - line 3: set `batch=64`
     - line 4: set `subdivisions=8`
     - line 244: set `classes=1`
     - line 237: set `filters=30`, (calculated as `(classes + 5)*5`)
-- Make a folder named `backup` in the main darknet directory
-- Download [darknet19_488.conv.23](https://pjreddie.com/media/files/darknet19_448.conv.23), and save it into the cfg directory
+- Create a folder named `backup` in the main darknet directory
+- Download [darknet19_488.conv.23](https://pjreddie.com/media/files/darknet19_448.conv.23), and save it into the 'cfg' directory
 
 ## 5 - Training
-- Open the darknet Makefile and switch GPU and CUDNN to 1 (if set up completed)
+- Open the darknet Makefile and switch GPU and CUDNN to 1 (Optional: only if these are setup)
 - Run `make` if you have not done so already
 - Run `./darknet detector train cfg/obj.data cfg/obj.cfg darknet19_448.conv.23`
 
-This will save save a `.weights` files within the backup folder, initially every 100 iterations, till 1000, and then up by 1000 after that. Make sure to read the nice [explanation](https://github.com/AlexeyAB/darknet#when-should-i-stop-training) by [Alexey](https://github.com/AlexeyAB) on when to decide to stop training.
+This will save save a `.weights` files within the backup folder, initially every 100 iterations, till 1000 (not included), and then every 10000 after that. This used to be every 1000 after the first 1000 interations but it was changed. To change it back, edit line 136 in `exemples/detector.c` from 10000 to 1000.
 
-If the training is ever interrupted at any point, it can be continued by substituting the last saved `.weights` file from the backup folder, with `darknet19_448.conv.23`, in the training command
+Make sure to read the [explanation](https://github.com/AlexeyAB/darknet#when-should-i-stop-training) by [Alexey](https://github.com/AlexeyAB) on when to stop training.
 
 ## 6 - Testing
-Test your newly trained algorithm by running, `./darknet detector test cfg/obj.data cfg/obj.cfg obj1000.weights data/image.jpg`
+Test your newly trained algorithm by running the following with a new image:
+`./darknet detector test cfg/obj.data cfg/obj.cfg obj1000.weights images/image.jpg`
+
+## Additional notes
+1. If the training is ever interrupted at any point, it can be continued by substituting the last saved `.weights` file from the backup folder, with `darknet19_448.conv.23`, in the training command
+2. If you get an error like: `darknet: ./src/cuda.c:36: check_error: Assertion '0' failed.`
+You can fix it by changing your ARCH (architecture) in the make file, to be appropriate for your GPU. Another simple way I found to temporarely solve it, is to just turn your computer off and on again.

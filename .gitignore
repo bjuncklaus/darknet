@@ -9,7 +9,7 @@
 *.a
 *.so
 *.23
-mnist/
+scripts/
 data/
 images/
 labels/
