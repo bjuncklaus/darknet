@@ -17,13 +17,17 @@ I am using the following to help me understand the training process:
 - [Start Training YOLO with Our Own Data](http://guanghan.info/blog/en/my-works/train-yolo/) by [Guanghan](https://github.com/Guanghan)
 - [Yolo-v2 Windows and Linux version](https://github.com/AlexeyAB/darknet) by [Alexey](https://github.com/AlexeyAB)
 
-## Prerequisite
+## TO DO
+- [ ] Better explanation of prerequisites and installattion
+- [ ] `.weights` files stop saving after 900 iterations, though I kepts it going over 2000
+- [ ] train multiple classes
+
+## Prerequisites
 - [Darknet](https://github.com/pjreddie/darknet)
 - [CUDA](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
 - [cuDNN v7.0 Runtime Library](https://developer.nvidia.com/rdp/cudnn-download), install [instructions](http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
 - [Anaconda](https://www.anaconda.com/download/#linux) for Python 2.7
 NOTE: CUDA and cuDNN are not necessary, if you decide to install them, make sure your system meets the requirements. OpenCV can also be optionally installed
-
 
 ## 1 - Gather & format data
 If you already have your data in the correct format, skip to [step 2](https://github.com/RiccardoGrin/darknet#2---labeling). <br /> NOTE: Check if any steps can be skipped (eg. No need to change image format if its already .jpg, and no need to flip to duplicate number of images, if you already have >250).
@@ -80,30 +84,29 @@ NOTE: If you cannot open 'main.py', check if python is opened as the default or 
 I have done some changes to the original [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan) while I was learning to use it.
 - Download the revised version of [convert.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/convert.py)
 - Move 'convert.py' to `darknet/scripts`
-- Change the paths on lines 39,40, and 45 to your own
+- Change the paths on lines 39, 40, and 45 to your own
 - Add all your classes in the array on line 16
 - Run `python convert.py` from the scripts directory
 
 ## 3 - Creating train/test sets
-I have made some changes to the 'process.py' script, written by [Nils Tijtgat](https://github.com/timebutt)  as seen on his [guide](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/). This script creates a 'train.txt' file required for training, and a 'test.txt' file. I have made some changes to the script to make it easier to use for multiple classes.
+I have made some changes to the 'process.py' script, written by [Nils Tijtgat](https://github.com/timebutt)  as seen on his [guide](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/). This script creates a 'train.txt' and 'test.txt' files required for training and validation. I have made some changes to the script to make it easier to use for multiple classes.
 - Download the revised version of [process.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/process.py)
 - Move 'process.py' to `darknet/scripts`
-- Set the percentage of images to be set as testing images (check NOTE below for none)
+- Set the percentage of images to be set as testing images
 - Update the directory in which to create the train and test files on lines 13, 14
 - Update the image directory on line 17
 - Add all your classes in the array on line 20 (similar to convert.py)
 - Run `python process.py` from the scripts directory
 
-NOTE: It is not necessary to have a test.txt file, however it might help having separate image sets for training and testing. Set 'index_test' to -1 on line 28 to stop the script from populating the test.txt file.
-
 ## 4 - Preparing configuration files
-- Go into the cfg directory
-- Create a `obj.data` file with the following text
-      classes = 1  
-      train = data/train.txt  
-      valid = data/test.txt  
-      names = obj.names  
-      backup = backup/
+- In the 'cfg' directory, create a `obj.data` file with the following text:
+  ```
+  classes = 1  
+  train = data/train.txt  
+  valid = data/test.txt  
+  names = obj.names  
+  backup = backup/
+  ```
 - Create a `obj.names` file, where every line should be a different class names
 - Duplicate `yolo-voc.cfg`, and change the name to `obj.cfg`
     - line 3: set `batch=64`
@@ -124,8 +127,3 @@ If the training is ever interrupted at any point, it can be continued by substit
 
 ## 6 - Testing
 Test your newly trained algorithm by running, `./darknet detector test cfg/obj.data cfg/obj.cfg obj1000.weights data/image.jpg`
-
-## TO FIGURE OUT
-- [ ] `.weights` files stop saving after 900 iterations, though I kepts it going over 2000
-- [ ] how to train multiple classes
-- [ ] point all files to same images & labels folder, without having to move them

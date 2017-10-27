@@ -25,7 +25,7 @@ for cls in classes:
     path_data = images_dir + cls + "/"
 
     counter = 1
-    index_test = round(100 / percentage_test) # set to -1 to stop populating test file
+    index_test = round(100 / percentage_test)
     for pathAndFilename in glob.iglob(os.path.join(path_data, "*.jpg")):
         title, ext = os.path.splitext(os.path.basename(pathAndFilename))
 
