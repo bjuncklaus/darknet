@@ -28,7 +28,8 @@ I am using the following to help me understand the training process:
 - [CUDA](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
 - [cuDNN v7.0 Runtime Library](https://developer.nvidia.com/rdp/cudnn-download), install [instructions](http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
 - [Anaconda](https://www.anaconda.com/download/#linux) for Python 2.7
-NOTE: CUDA and cuDNN are not necessary, if you decide to install them, make sure your system meets the requirements. OpenCV can also be optionally installed
+
+NOTE: CUDA and cuDNN are not necessary but highly recommended. If you decide to install them, make sure that your system meets the requirements and follow the instructions closely. OpenCV can also be optionally installed.
 
 ## 1 - Gather & format data
 If you already have your data in the correct format, skip to [step 2](https://github.com/RiccardoGrin/darknet#2---labeling). <br /> NOTE: Check if any steps can be skipped (eg. No need to change image format if its already .jpg, and no need to flip to duplicate number of images, if you already have >250).
