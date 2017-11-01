@@ -17,11 +17,12 @@ I used the following to help me understand the training process:
 - [Start Training YOLO with Our Own Data](http://guanghan.info/blog/en/my-works/train-yolo/) by [Guanghan](https://github.com/Guanghan)
 - [Yolo-v2 Windows and Linux version](https://github.com/AlexeyAB/darknet) by [Alexey](https://github.com/AlexeyAB)
 
+## Shortcuts
 1. [Prerequisites](#prerequisites)
 2. [Gather & format data](#1---gather--format-data)
 3. [Labelling](#2---labelling)
 4. [Creating train/test sets](#3---creating-traintest-sets)
-5. [Configuration files](#4---preparing-configuration-files)
+5. [Configuration files](#4---configuration-files)
 6. [Training](#5---training)
 7. [Testing](#6---testing)
 8. [Additional Notes](#additional-notes)
