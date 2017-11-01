@@ -1,5 +1,3 @@
-<p align="center"><img src="http://pjreddie.com/media/files/darknet-black-small.png" height="300"></p>
-
 # Darknet
 Darknet is an open source neural network framework written in C and CUDA. It is fast, easy to install, and supports CPU and GPU computation.
 
@@ -7,29 +5,43 @@ For more information see the [Darknet project website](http://pjreddie.com/darkn
 
 For questions or issues please use the [Google Group](https://groups.google.com/forum/#!forum/darknet).
 
+<p align="center"><img src="http://pjreddie.com/media/files/darknet-black-small.png" height="300"></p>
+
 
 
 # Training
-NOTE: I have only started writing this guide for myself. It is probably not clear and surely not complete. This is at the moment just to help me keep track of what steps I am doing to train yolo, as I am sure the majority of you have seen how complicated it can be. If I get it to work, I will try to keep expanding on this, and make a very clear guide which will hopefully help out. I am using this for a university project, and currently only to train on a single class.
+NOTE: I have started writing this guide for a thesis project, and not everything may be yet clear or complete. I will try to keep expanding on this, and make a very clear guide which will hopefully help out. 
 
-I am using the following to help me understand the training process:
+I used the following to help me understand the training process:
 - [How to train YOLOv2 to detect custom objects](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/) by [Nils Tijtgat](https://github.com/timebutt)
 - [Start Training YOLO with Our Own Data](http://guanghan.info/blog/en/my-works/train-yolo/) by [Guanghan](https://github.com/Guanghan)
 - [Yolo-v2 Windows and Linux version](https://github.com/AlexeyAB/darknet) by [Alexey](https://github.com/AlexeyAB)
 
+1. [Prerequisites](#prerequisites)
+2. [Gather & format data](#1---gather--format-data)
+3. [Labelling](#2---labelling)
+4. [Creating train/test sets](#3---creating-traintest-sets)
+5. [Configuration files](#4---preparing-configuration-files)
+6. [Training](#5---training)
+7. [Testing](#6---testing)
+8. [Additional Notes](#additional-notes)
+
 ## TO DO
-- Better explanation of prerequisites and installattion
-- Train multiple classes
+- Better explanation of prerequisites and installattion instructions
+- Better explanation of training multiple classes
 - Add more solutions to common issues
 - Add more example images
 
 ## Prerequisites
+- Ubuntu 16.04 or other Linux distribution
+- Linux gcc compiler and toolchain, acquired from development tools of your Linux distribution
+- A GPU of compute capability 3.0 or higher, check with [NVIDIA](https://developer.nvidia.com/cuda-gpus)
 - [Darknet](https://github.com/pjreddie/darknet)
-- [CUDA](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
-- [cuDNN v7.0 Runtime Library](https://developer.nvidia.com/rdp/cudnn-download), install [instructions](http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
+- [CUDA](https://developer.nvidia.com/cuda-downloads) 8.0 or 9.0. Install [instructions](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+- [cuDNN v7.0 Runtime Library](https://developer.nvidia.com/rdp/cudnn-download), will require free NVIDIA dev team membership. Install [instructions](http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
 - [Anaconda](https://www.anaconda.com/download/#linux) for Python 2.7
 
-NOTE: CUDA and cuDNN are not necessary but highly recommended. If you decide to install them, make sure that your system meets the requirements and follow the instructions closely. OpenCV can also be optionally installed.
+NOTE: OpenCV can also be optionally installed.
 
 ## 1 - Gather & format data
 If you already have your data in the correct format, skip to [step 2](https://github.com/RiccardoGrin/darknet#2---labeling). <br /> NOTE: Check if any steps can be skipped (eg. No need to change image format if its already .jpg, and no need to flip to duplicate number of images, if you already have >250).
@@ -65,7 +77,7 @@ Steps 1.1 to 1.3, require Imagemagick. Install using: `sudo apt-get install imag
   <img src="readme_images/rename_exp.jpg" width="700"><br>
 </p>
 
-## 2 - Labeling
+## 2 - Labelling
 To make the process easier, I have changed the orginal [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git) by [puzzledqs](https://github.com/puzzledqs), so that images would not need to be shifted from place to place. Also I have made it so that you can open a file with the name of the class in the images folder.
 - In the home directory, clone the revised BBox-Label-Tool: `git clone https://github.com/RiccardoGrin/BBox-Label-Tool`
 - Open `main.py` in an editor (I personally preder Atom)
@@ -100,7 +112,7 @@ I have made some changes to the 'process.py' script, written by [Nils Tijtgat](h
 - Add all your classes in the array on line 20 (similar to convert.py)
 - Run `python process.py` from the scripts directory
 
-## 4 - Preparing configuration files
+## 4 - Configuration files
 - In the 'data' directory, create a `obj.names` file, where every line should be a different class names
 - In the 'cfg' directory, create a `obj.data` file with the following text:
   ```
