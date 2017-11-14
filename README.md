@@ -44,27 +44,26 @@ I used the following to help me understand the training process:
 
 NOTE: OpenCV can also be optionally installed.
 
-## 1 - Gather & format data
-If you already have your data in the correct format, skip to [step 2](https://github.com/RiccardoGrin/darknet#2---labeling). <br /> NOTE: Check if any steps can be skipped (eg. No need to change image format if its already .jpg, and no need to flip to duplicate number of images, if you already have >250).
+## 1 - Gather Data
+If you already have data from a dataset/database and it is in the correct format, skip to [step 2](https://github.com/RiccardoGrin/darknet#2---labeling). <br /> 
 
-Though there are many image datasets/databases online, I could not find the images which I wanted, or they were part of a very large set, or the download was simply too large. Therefore, I used my  phone to take photos, however the smallest photos I could take were 3264\*1836, and their names were not as desired. From research, apparently at least 250 different images are needed for each class. Taking 250 photos can take some time and creativity, therefore I took only half, and then flipped, renamed, and resized them. <br />
-NOTE: Images need to be in .jpg format. If they are not, then you will need to also change their format.
+Though there are many image datasets/databases online, I could not find the images which I wanted, or these were part of a very large set, or the download was simply too large. Therefore, I just used my  phone to take photos. However the smallest photos I could take were 3264\*1836, and their names were not as desired. From research, apparently at least 250 different images are needed for each class. Taking 250 photos can take some time and creativity, therefore I took only half, and did some image augmentation (flipping, rotating, etc...) to get all 250 images. <br />
+NOTE: Much better results will be achieved by get the 250 images or more, without applying any augmentation, as there will be more difference between the images. Thus image augmentation should only really be used to increase the set, to further improve the classification accuracy, though it will not be as large an increase as using original iamges.
 
-Steps 1.1 to 1.3, require Imagemagick. Install using: `sudo apt-get install imagemagick`
+Both Pre-processing and image augmentation steps will require Imagemagick, which is a free and open-source software suite used for formatting images. Install it using: `sudo apt-get install imagemagick`
 
-### 1.1 - Batch convert images format (eg .png to .jpg):
+## 2 - Pre-processing
+Darknet requires the images to be in .jpg format, and of course, the smaller the images, the less computation is required. Thus, if your images are also large, make sure to resize them to something below 640\*640 pixels. 
+
+### 2.1 - Batch convert images format (eg .png to .jpg):
 - Travel to folder with images to convert via terminal
 - Convert image format: `mogrify -format jpg *.png`
 
-### 1.2 - Batch flip (mirror):
-- Copy all images to be flipped and paste them in the same folder (should be renamed to img_name(copy).jpg)
-- Flip all image copies from the terminal: `mogrify -flop *(copy).jpg`
-
-### 1.3 - Batch resize:
+### 2.2 - Batch resize:
 - Travel to the folder containing all image to be resized using the terminal
 - Resize keeping aspect ratio: `mogrify -resize 640x360 *.jpg`
 
-### 1.4 - Batch rename:
+### 2.3 - Batch rename:
 - Install PyRenamer `sudo apt-get install pyrenamer`
 - Open it: `pyrenamer`
 - Travel to folder containng images from the left panel
@@ -74,14 +73,31 @@ Steps 1.1 to 1.3, require Imagemagick. Install using: `sudo apt-get install imag
 - Click on the Preview button to see changes to be made. This will rename all .jpg images to ascending numbers (000, 001, 002, etc...)
 - Press the Rename button to complete
 
+## 3 - Augmentation
+Images may be augmented in order to expand the dataset with which you can work and train from. It might also be useful in creasting a validation or testing set, though as stated previously, it is always better to have new original images, rather than augmented ones. Not all the following steps are necessary, it depends on how many more images you want to create. 
+NOTE: It is not always a great idea to flip images, as most thing are not usually found to be seen upside-down.
+
+Copy and paste all images to be augmented in the same folder (these should be automatically renamed to img_name(copy).jpg). If you are intending to do multiple augmentations, images may need to be renamed to not have the '(copy)' text after their name.
+
+### 3.1 - Batch flip:
+- Flip all image copies from the terminal: `mogrify -flip *(copy).jpg`
+
+### 3.2 - Batch flop:
+- Flop all image copies from the terminal: `mogrify -flop *(copy).jpg`
+
+### 3.3 - Batch rotate:
+The angel can be changed from 90 degrees to whatever is desired. I believe the images get padded for non multiples of 90 degree rotations (not tested though).
+- Rotate all image copies from the terminal by 90 degrees: `mogrify -rotate 90 *.jpg`
+
 <p align="center">
   <img src="readme_images/rename_exp.jpg" width="700"><br>
 </p>
 
+
 ## 2 - Labelling
-To make the process easier, I have changed the orginal [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git) by [puzzledqs](https://github.com/puzzledqs), so that images would not need to be shifted from place to place. Also I have made it so that you can open a file with the name of the class in the images folder.
+To make the process easier, I have changed the orginal [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git) by [puzzledqs](https://github.com/puzzledqs), so that images would not need to be shifted from fodler to folder to get all the different scripts to work. Also I have made it so that you can open a file with the name of the class in the images folder.
 - In the home directory, clone the revised BBox-Label-Tool: `git clone https://github.com/RiccardoGrin/BBox-Label-Tool`
-- Open `main.py` in an editor (I personally preder Atom)
+- Open `main.py` in an editor (I personally prefer Atom)
 - Change lines 109 and 123 to point to your 'images' and 'labels' folders respectively
 - Create a folder within the 'images' folder, for each class, with the class name
 - Collect each image from each class and place it in their respective folder
@@ -89,7 +105,7 @@ To make the process easier, I have changed the orginal [BBox-Label-Tool](https:/
 - Open main: `python main.py`
 - Label every image (will take some time)
 
-NOTE: If you cannot open 'main.py', check if python is opened as the default or Anaconda version by opening it from the terminal by typing `python`. If it is the defaults version, open `.bachrc` from the home directory using an edition (Atom, nano, vim, etc...), and add at the very end `export PATH=~/anaconda2/bin:$PATH`, then in the command line type `source .bashrc`. Try to open 'main.py' again.
+NOTE: If you cannot open 'main.py', check if python is opened as the default or Anaconda version by opening it from the terminal by typing `which python`. If it is the defaults version, open `.bachrc` from the home directory using an edition (Atom, nano, vim, etc...), and add at the very end `export PATH=~/anaconda2/bin:$PATH`, then in the command line type `source .bashrc`. Try to open 'main.py' again.
 
 <p align="center">
   <img src="readme_images/label_exp.jpg" width="700"><br>
@@ -132,7 +148,7 @@ I have made some changes to the 'process.py' script, written by [Nils Tijtgat](h
 - Download [darknet19_488.conv.23](https://pjreddie.com/media/files/darknet19_448.conv.23), and save it into the 'cfg' directory
 
 ## 5 - Training
-- Open the darknet Makefile and switch GPU and CUDNN to 1 (Optional: only if these are setup)
+- Open the darknet Makefile and switch GPU and CUDNN to 1 (Make sure there are setup correctly, otherwise training will take forever)
 - Run `make` if you have not done so already
 - Run `./darknet detector train cfg/obj.data cfg/obj.cfg darknet19_448.conv.23`
 
