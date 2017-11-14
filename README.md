@@ -19,13 +19,15 @@ I used the following to help me understand the training process:
 
 ## Shortcuts
 1. [Prerequisites](#prerequisites)
-2. [Gather & format data](#1---gather--format-data)
-3. [Labelling](#2---labelling)
-4. [Creating train/test sets](#3---creating-traintest-sets)
-5. [Configuration files](#4---configuration-files)
-6. [Training](#5---training)
-7. [Testing](#6---testing)
-8. [Additional Notes](#additional-notes)
+2. [Gathering data](#1---gather-data)
+3. [Pre-processing](#2---pre-processing)
+4. [Augmentation](#3---augmentation)
+5. [Labelling](#4---labelling)
+6. [Creating train/test sets](#5---creating-traintest-sets)
+7. [Configuration files](#6---configuration-files)
+8. [Training](#7---training)
+9. [Testing](#8---testing)
+10. [Additional Notes](#additional-notes)
 
 ## TO DO
 - Better explanation of prerequisites and installattion instructions
@@ -94,7 +96,7 @@ The angel can be changed from 90 degrees to whatever is desired. I believe the i
 </p>
 
 
-## 2 - Labelling
+## 4 - Labelling
 To make the process easier, I have changed the orginal [BBox-Label-Tool](https://github.com/puzzledqs/BBox-Label-Tool.git) by [puzzledqs](https://github.com/puzzledqs), so that images would not need to be shifted from fodler to folder to get all the different scripts to work. Also I have made it so that you can open a file with the name of the class in the images folder.
 - In the home directory, clone the revised BBox-Label-Tool: `git clone https://github.com/RiccardoGrin/BBox-Label-Tool`
 - Open `main.py` in an editor (I personally prefer Atom)
@@ -111,7 +113,7 @@ NOTE: If you cannot open 'main.py', check if python is opened as the default or 
   <img src="readme_images/label_exp.jpg" width="700"><br>
 </p>
 
-### 2.1 - Converting labels
+### 4.1 - Converting labels
 I have done some changes to the original [convert.py](https://github.com/Guanghan/darknet/tree/master/scripts), written by [Guanghan](https://github.com/Guanghan) while I was learning to use it.
 - Download the revised version of [convert.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/convert.py)
 - Move 'convert.py' to `darknet/scripts`
@@ -119,7 +121,7 @@ I have done some changes to the original [convert.py](https://github.com/Guangha
 - Add all your classes in the array on line 16
 - Run `python convert.py` from the scripts directory
 
-## 3 - Creating train/test sets
+## 5 - Creating train/test sets
 I have made some changes to the 'process.py' script, written by [Nils Tijtgat](https://github.com/timebutt)  as seen on his [guide](https://timebutt.github.io/static/how-to-train-yolov2-to-detect-custom-objects/). This script creates a 'train.txt' and 'test.txt' files required for training and validation. I have made some changes to the script to make it easier to use for multiple classes.
 - Download the revised version of [process.py](https://github.com/RiccardoGrin/darknet/blob/master/scripts/process.py)
 - Move 'process.py' to `darknet/scripts`
@@ -129,7 +131,7 @@ I have made some changes to the 'process.py' script, written by [Nils Tijtgat](h
 - Add all your classes in the array on line 20 (similar to convert.py)
 - Run `python process.py` from the scripts directory
 
-## 4 - Configuration files
+## 6 - Configuration files
 - In the 'data' directory, create a `obj.names` file, where every line should be a different class names
 - In the 'cfg' directory, create a `obj.data` file with the following text:
   ```
@@ -147,16 +149,16 @@ I have made some changes to the 'process.py' script, written by [Nils Tijtgat](h
 - Create a folder named `backup` in the main darknet directory
 - Download [darknet19_488.conv.23](https://pjreddie.com/media/files/darknet19_448.conv.23), and save it into the 'cfg' directory
 
-## 5 - Training
+## 7 - Training
 - Open the darknet Makefile and switch GPU and CUDNN to 1 (Make sure there are setup correctly, otherwise training will take forever)
 - Run `make` if you have not done so already
 - Run `./darknet detector train cfg/obj.data cfg/obj.cfg darknet19_448.conv.23`
 
-This will save save a `.weights` files within the backup folder, initially every 100 iterations, till 1000 (not included), and then every 10000 after that. This used to be every 1000 after the first 1000 interations but it was changed. To change it back, edit line 136 in `exemples/detector.c` from 10000 to 1000.
+This will save a `.weights` files within the backup folder, initially every 100 iterations, till 1000 (not included), and then every 10000 after that. This used to be every 1000 after the first 1000 interations but it was changed. To change it back, edit line 136 in `exemples/detector.c` from 10000 to 1000.
 
 Make sure to read the [explanation](https://github.com/AlexeyAB/darknet#when-should-i-stop-training) by [Alexey](https://github.com/AlexeyAB) on when to stop training.
 
-## 6 - Testing
+## 8 - Testing
 Test your newly trained algorithm by running the following with a new image:
 `./darknet detector test cfg/obj.data cfg/obj.cfg obj1000.weights images/image.jpg`
 
