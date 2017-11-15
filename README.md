@@ -47,8 +47,6 @@ I used the following to help me understand the training process:
 NOTE: OpenCV can also be optionally installed.
 
 ## 1 - Gather Data
-If you already have data from a dataset/database and it is in the correct format, skip to [step 2](https://github.com/RiccardoGrin/darknet#2---labeling). <br /> 
-
 Though there are many image datasets/databases online, I could not find the images which I wanted, or these were part of a very large set, or the download was simply too large. Therefore, I just used my  phone to take photos. However the smallest photos I could take were 3264\*1836, and their names were not as desired. From research, apparently at least 250 different images are needed for each class. Taking 250 photos can take some time and creativity, therefore I took only half, and did some image augmentation (flipping, rotating, etc...) to get all 250 images. <br />
 NOTE: Much better results will be achieved by get the 250 images or more, without applying any augmentation, as there will be more difference between the images. Thus image augmentation should only really be used to increase the set, to further improve the classification accuracy, though it will not be as large an increase as using original iamges.
 
@@ -135,7 +133,7 @@ I have made some changes to the 'process.py' script, written by [Nils Tijtgat](h
 
 ## 6 - Configuration files
 - In the 'data' directory, create a `obj.names` file, where every line should be a different class names
-- In the 'cfg' directory, create a `obj.data` file with the following text:
+- In the 'cfg' directory, create a `obj.data` file with the following text (classes = number of classes/objects to train on):
   ```
   classes = 1  
   train = data/train.txt  
@@ -144,10 +142,10 @@ I have made some changes to the 'process.py' script, written by [Nils Tijtgat](h
   backup = backup/
   ```
 - Duplicate `yolo-voc.cfg`, and change the name to `obj.cfg`
-    - line 3: set `batch=64`
+    - line 3: set `batch=64` (make sure your GPU can handle this, otherwise scale down)
     - line 4: set `subdivisions=8`
-    - line 244: set `classes=1`
-    - line 237: set `filters=30`, (calculated as `(classes + 5)*5`)
+    - line 244: set `classes=1` (number of classes you are going to train on)
+    - line 237: set `filters=30`, (calculated as `(classes + 5)*5`, eg. `(1+5)\*5 = 30`)
 - Create a folder named `backup` in the main darknet directory
 - Download [darknet19_488.conv.23](https://pjreddie.com/media/files/darknet19_448.conv.23), and save it into the 'cfg' directory
 
@@ -168,3 +166,13 @@ Test your newly trained algorithm by running the following with a new image:
 1. If the training is ever interrupted at any point, it can be continued by substituting the last saved `.weights` file from the backup folder, with `darknet19_448.conv.23`, in the training command
 2. If you get an error like: `darknet: ./src/cuda.c:36: check_error: Assertion '0' failed.`
 You can fix it by changing your ARCH (architecture) in the make file, to be appropriate for your GPU. Another simple way I found to temporarely solve it, is to just turn your computer off and on again.
+
+## Pre-trained model weights
+YOLO and YOLO9000 require at least 4GB of GPU and RAM (around 190MB downloads)
+- [yolo.weights](http://pjreddie.com/media/files/yolo.weights) for `yolo.cfg`
+- [yolo-voc.weights](http://pjreddie.com/media/files/yolo-voc.weights) for `yolo-voc.cfg`
+- [yolo9000.weights](http://pjreddie.com/media/files/yolo9000.weights) for `yolo9000.cfg`
+
+Tiny YOLO requires at least 1GB of GPU and RAM (around 60MB downloads)
+- [tiny-yolo.weights](http://pjreddie.com/media/files/tiny-yolo.weights) for `tiny-yolo.cfg`
+- [tiny-yolo-voc.weights](http://pjreddie.com/media/files/tiny-yolo-voc.weights) for `tiny-yolo-voc.cfg`
